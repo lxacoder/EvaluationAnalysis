@@ -1,0 +1,5 @@
+# some config variable
+[mysqlConfig]
+host: 3306
+username: root
+passwd: 123456s
