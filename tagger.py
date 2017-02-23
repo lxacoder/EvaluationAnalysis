@@ -1,7 +1,6 @@
 import dbaccess
 from ctypes import *
 
-
 # 分界线。不知什么原因无法导入模块
 # ==================================================
 # NLPIR2014 Lib File (NLPIR64, NLPIR32, libNLPIR64.so, libNLPIR32.so),
@@ -10,6 +9,7 @@ libFile = './test/NLPIR.dll'
 print("test")
 dll = CDLL(libFile)
 print("test")
+
 
 def loadFun(exportName, restype, argtypes):
     global dll
@@ -254,9 +254,10 @@ def Seg(paragraph):
         # yield (i, a.sPOS)  # use this line for python 2.x
         yield (i.decode('UTF8'), a.sPOS.decode('UTF8'))  # use this line for python 3.x
 
+
 # =================================================================================
 def getsentence():
-    sqlselect = "SELECT id,sentence FROM reviewsentiment WHERE id >1545398"
+    sqlselect = "SELECT id,sentence FROM reviewsentiment"
     with con.cursor() as cursor:
         cursor.execute(sqlselect)
         while True:
@@ -266,9 +267,10 @@ def getsentence():
             processtag(one)
             global processnum
             processnum += 1
-            print("processing:"+str(processnum)+"/"+total)
+            print("processing:" + str(processnum) + "/" + total)
             if processnum % 100 == 0:
                 con.commit()
+
 
 def processtag(sentence):
     sentenceid = sentence[0]
@@ -281,7 +283,7 @@ def processtag(sentence):
 
 
 con = dbaccess.getcon("other")
-processnum = 1545398  # 1017768   1545398
+processnum = 0  # 1017768   1545398
 try:
     total = str(2832530)
     print(total)

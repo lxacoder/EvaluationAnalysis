@@ -5,7 +5,7 @@ con = dbaccess.getcon("other")
 sqlcategory = "SELECT DISTINCT category FROM koubei"
 sqlword = "SELECT p.word,f.feature FROM postag p, featureclass f, reviewsentiment r, koubei k" \
           " WHERE p.reviewsentementid = r.id AND r.featureclassid = f.id AND " \
-          "f.reviewid = k.id AND k.category = %s AND p.postag='n'"
+          "f.reviewid = k.id AND k.category = %s AND (p.postag='n' OR p.postag='vn')"
 processnum = 0
 total = str(805)
 cursor1 = con.cursor()
@@ -16,6 +16,7 @@ while True:
     if category is None:
         break
     categoryname = category[0]
+    print(categoryname)
     cursor2.execute(sqlword, categoryname)
     while True:
         try:
@@ -33,7 +34,7 @@ while True:
             f.write(word+"\n")
         except Exception as e:
             print("something wrong")
-            open("./err.txt", "a").write(categoryname+"\n")
+            open("./err.txt", "a", encoding="utf8").write(categoryname+"\n")
     f.close()
     processnum += 1
     print("processing:"+str(processnum)+"/"+total)
